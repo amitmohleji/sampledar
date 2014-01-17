@@ -54,13 +54,10 @@
 							<groupId>com.beingjavaguys.sample</groupId>
 							<artifactId>SampleSpringMaven</artifactId>
 							<scanPlaceholders>true</scanPlaceholders>
-							<tags>
-								<tag>main</tag>
-							</tags>
 						</deployable>
 
 					</deployables>
-					<environmentId>Environments/Weblogic-Dev</environmentId>
+					<environmentId>Environments/Dev/TEST</environmentId>
 
 				</configuration>
 			</plugin>
