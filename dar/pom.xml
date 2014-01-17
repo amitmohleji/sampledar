@@ -49,7 +49,7 @@
 					<serverAddress>localhost</serverAddress>
 					<deployables>
 						<deployable>
-							<name>SampleSpringMaven.war</name>
+							<name>SampleSpringMaven</name>
 							<type>jee.War</type>
 							<groupId>com.beingjavaguys.sample</groupId>
 							<artifactId>SampleSpringMaven</artifactId>
