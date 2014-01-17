@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<udm.DeploymentPackage version="3.0" application="PetPortal">
+  <orchestrator>default</orchestrator>
+  <parallelByContainer>false</parallelByContainer>
+  <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
+  <satisfiesPerformanceTested>false</satisfiesPerformanceTested>
+  <deployables>
+    <sql.SqlScripts name="sql" file="sql/sql">
+      <tags />
+      <scanPlaceholders>true</scanPlaceholders>
+      <checksum>293d5fd191cb1aafebeb72a8d8b219895e795cf7</checksum>
+    </sql.SqlScripts>
+    <jbossas.NonTransactionalDatasourceSpec name="PetClinic-ds-on-jboss">
+      <tags />
+      <jndiName>jdbc/pets</jndiName>
+      <userName>{{DB_USERNAME}}</userName>
+      <password>{{DB_PASSWORD}}</password>
+      <connectionUrl>{{DB_URL}}</connectionUrl>
+      <driverClass>com.mysql.jdbc.Driver</driverClass>
+      <connectionProperties />
+    </jbossas.NonTransactionalDatasourceSpec>
+    <jee.Ear name="PetClinic-ear" file="PetClinic-ear/PetClinic-1.0.ear">
+      <tags />
+      <scanPlaceholders>false</scanPlaceholders>
+      <checksum>96e608b45e844e0f1110b767d320fdafe4be53c6</checksum>
+    </jee.Ear>
+    <wls.DataSourceSpec name="PetClinic-ds-on-wls">
+      <tags />
+      <jndiNames>jdbc/pets</jndiNames>
+      <url>{{DB_URL}}</url>
+      <driverName>com.mysql.jdbc.Driver</driverName>
+      <username>{{DB_USERNAME}}</username>
+      <password>{{DB_PASSWORD}}</password>
+      <properties />
+    </wls.DataSourceSpec>
+    <www.ApacheProxyPassSpec name="PetPortal-to-PetClinic-ProxyPass">
+      <tags />
+      <from>/{{PETCLINIC_CONTEXT_ROOT}}</from>
+      <to>http://{{APPSERVER_HOST}}:{{APPSERVER_PORT}}/{{PETCLINIC_CONTEXT_ROOT}}</to>
+      <reverse>true</reverse>
+    </www.ApacheProxyPassSpec>
+    <tests2.HttpRequestTest name="Check-PetPortal-to-PetClinic-ProxyPass-Test">
+      <tags />
+      <url>http://{{APACHE_HOST}}:{{APACHE_PORT}}/{{PETCLINIC_CONTEXT_ROOT}}/</url>
+      <expectedResponseText>Display all veterinarians</expectedResponseText>
+      <startDelay>0</startDelay>
+    </tests2.HttpRequestTest>
+    <www.WebContent name="webContent" file="webContent/PetPortal_pages">
+      <tags />
+      <scanPlaceholders>true</scanPlaceholders>
+      <checksum>58401e8c8754a440589069356b235171aac64d86</checksum>
+    </www.WebContent>
+    <tests2.HttpRequestTest name="Check-PetClinic-On-Appserver-Test">
+      <tags />
+      <url>http://{{APPSERVER_HOST}}:{{APPSERVER_PORT}}/{{PETCLINIC_CONTEXT_ROOT}}</url>
+      <expectedResponseText>Display all veterinarians</expectedResponseText>
+      <startDelay>0</startDelay>
+    </tests2.HttpRequestTest>
+    <tests2.HttpRequestTest name="Check-PetPortal-On-Webserver-Test">
+      <tags />
+      <url>http://{{APACHE_HOST}}:{{APACHE_PORT}}/</url>
+      <expectedResponseText>{{PETPORTAL_TITLE}}</expectedResponseText>
+      <startDelay>0</startDelay>
+    </tests2.HttpRequestTest>
+  </deployables>
+</udm.DeploymentPackage>
